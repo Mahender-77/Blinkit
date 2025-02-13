@@ -3,10 +3,11 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { products } from "../../utlis/constants";
-import { useRef } from "react";
+import { useRef ,useState} from "react";
 
 export const ScrollBar: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [button,seButton]=useState(true)
 
   const handleScroll = (val : string) => {
     if(val === "left"){
@@ -152,16 +153,17 @@ export const ScrollBar: React.FC = () => {
                 <Typography sx={{ fontSize: "12px", fontWeight: 600 }}>{item.price}</Typography>
               </Box>
 
-              <Button
+             {button? <Button
                 variant="outlined"
                 sx={{
                   border: "0.5px solid green",
                   color: "green",
                   backgroundColor: "rgb(236, 255, 236)",
                 }}
+                onClick={()=>seButton(false)}
               >
                 ADD
-              </Button>
+              </Button>:<Button variant="contained">Contained</Button>}
             </Box>
           </Box>
         ))}

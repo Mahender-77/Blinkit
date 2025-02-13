@@ -1,7 +1,15 @@
 import { Box, Button, Typography } from "@mui/material";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { products } from "../../utlis/constants";
+import React from "react";
+import Skeleton from "@mui/material/Skeleton"
+
 export const BannerRightsideScrollBar: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const [text, setText] = React.useState("option1"); // Default selected option
+  const options = ["option1", "option2", "option3"];
+
   return (
     <Box
       sx={{
@@ -17,11 +25,8 @@ export const BannerRightsideScrollBar: React.FC = () => {
           width: "100%",
           height: "60px",
           display: "flex",
-          //   padding:"10px",
           justifyContent: "space-between",
           alignItems: "center",
-          //   paddingLeft:"10px",
-          //   paddingRight:"10px",
         }}
       >
         <Typography variant="h6" sx={{ fontWeight: 600, marginLeft: "10px" }}>
@@ -38,9 +43,81 @@ export const BannerRightsideScrollBar: React.FC = () => {
           <Typography sx={{ fontSize: "12px", color: "#666666" }}>
             Sort By
           </Typography>
-          <input type="text" />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              position: "relative",
+            }}
+          >
+            {/* Input Box (Dropdown Trigger) */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                border: "0.5px solid #eee",
+                cursor: "pointer",
+                padding: "5px 10px",
+              }}
+              onClick={() => setOpen(!open)}
+            >
+              <Typography sx={{ fontSize: "14px",width:"190px" }}>{text}</Typography>
+              <KeyboardArrowDownIcon />
+            </Box>
+
+            {/* Dropdown Options */}
+            {open && (
+              <Box
+                sx={{
+                  border: "1px solid #eee",
+                  width: "235px",
+                  position: "absolute",
+                  top: "35px",
+                  zIndex: "10",
+                  backgroundColor: "#fff",
+                  boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+                  
+                  overflow: "hidden",
+                }}
+              >
+                {options.map((item) => (
+                  <Box
+                    key={item}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      padding: "8px 10px",
+                      cursor: "pointer",
+                      "&:hover": { backgroundColor: "#f5f5f5" },
+                      borderBottom: "1px solid #eee",
+                     
+                    }}
+                    onClick={() => {
+                      setText(item);
+                      setOpen(false);
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      name="sortOptions"
+                      value={item}
+                      checked={text === item}
+                      onChange={() => setText(item)}
+                      style={{ marginRight: "8px" ,accentColor: "green", }}
+                    />
+                    <Typography sx={{ fontSize: "14px" ,color: text === item ? "green" : "black",}}>{item}</Typography>
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
         </Box>
       </Box>
+
+      {/* Product Grid */}
       <Box
         sx={{
           width: "98%",
@@ -50,15 +127,15 @@ export const BannerRightsideScrollBar: React.FC = () => {
           gridTemplateColumns: "repeat(4,1fr)",
           gap: "10px",
           padding: "10px",
-          overflowY:"auto",
-          overflowX:"hidden",
+          overflowY: "auto",
+          overflowX: "hidden",
           "&::-webkit-scrollbar": {
-    display: "none",
-  },
+            display: "none",
+          },
         }}
       >
         {products?.map((item) => (
-          <Box
+          item ? <Box
             component="div"
             key={item.id}
             sx={{
@@ -70,7 +147,7 @@ export const BannerRightsideScrollBar: React.FC = () => {
               border: "0.5px solid rgb(232, 232, 232)",
               gap: "0.125rem",
               backgroundColor: "rgb(255, 255, 255)",
-              borderRadius:"10px"
+              borderRadius: "10px",
             }}
           >
             <Box
@@ -86,6 +163,7 @@ export const BannerRightsideScrollBar: React.FC = () => {
               <img
                 style={{ width: "220px", objectFit: "contain" }}
                 src={item.image1}
+                alt="product"
               />
             </Box>
 
@@ -162,7 +240,7 @@ export const BannerRightsideScrollBar: React.FC = () => {
                 ADD
               </Button>
             </Box>
-          </Box>
+          </Box> : <Skeleton variant="rectangular" width={230} height={290} />
         ))}
       </Box>
     </Box>
