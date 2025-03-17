@@ -4,12 +4,12 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import React from "react";
+// import React from "react";
 export const Footer = () => {
-  const [selectedValue, setSelectedValue] = React.useState("Option 1");
-  const [isOpen, setIsOpen] = React.useState(false);
+  // const [selectedValue, setSelectedValue] = React.useState("Option 1");
+  // const [isOpen, setIsOpen] = React.useState(false);
 
-  const options = ["Option 1", "Option 2", "Option 3"];
+  // const options = ["Option 1", "Option 2", "Option 3"];
   return (
     <Box>
       <Box
@@ -139,8 +139,8 @@ export const Footer = () => {
           <LinkedInIcon sx={{ fontSize: "40px", color: "#0e76a8" }} />
         </Box>
       </Box>
-      <div className="relative w-64 mx-auto mt-10">
-        {/* Input Box (Acts like a dropdown trigger) */}
+      {/* <div className="relative w-64 mx-auto mt-10">
+      
         <input
           type="text"
           value={selectedValue}
@@ -149,7 +149,7 @@ export const Footer = () => {
           onClick={() => setIsOpen(!isOpen)}
         />
 
-        {/* Dropdown Menu */}
+       
         {isOpen && (
           <div className="absolute w-full mt-1 border rounded bg-white shadow">
             {options.map((option) => (
@@ -172,7 +172,7 @@ export const Footer = () => {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
     </Box>
   );
 };
