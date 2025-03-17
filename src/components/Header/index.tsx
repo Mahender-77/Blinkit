@@ -18,26 +18,29 @@ import "./index.css";
 
 // **Extracted Search Bar Component**
 const SearchBar = () => {
-  const placeholderTexts = [
+  const placeholderTexts = React.useMemo(() => [
     'Search "milk"',
     'Search "bread"',
     'Search "chips"',
-  ];
+  ], []);
   const [placeholder, setPlaceholder] = React.useState(placeholderTexts[0]);
   const [animationClass, setAnimationClass] = React.useState(""); // Control animation class
+  const [searchValue, setSearchValue] = React.useState("");
 
   React.useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
-      setAnimationClass("move-up"); // Start animation
-      setTimeout(() => {
-        index = (index + 1) % placeholderTexts.length;
-        setPlaceholder(placeholderTexts[index]); // Update placeholder
-        setAnimationClass(""); // Reset animation
-      }, 600);
+      if (!searchValue) {
+        setAnimationClass("move-up"); // Start animation
+        setTimeout(() => {
+          index = (index + 1) % placeholderTexts.length;
+          setPlaceholder(placeholderTexts[index]); // Update placeholder
+          setAnimationClass(""); // Reset animation
+        }, 600);
+      }
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [placeholderTexts, searchValue]);
 
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
@@ -53,6 +56,8 @@ const SearchBar = () => {
       <input
         type="text"
         className="search-input"
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
         style={{
           width: "97%",
           padding: "12px",
@@ -64,9 +69,9 @@ const SearchBar = () => {
           caretColor: "transparent",
         }}
       />
-      <span className={`placeholder-text ${animationClass}`}>
+     { searchValue===""?  <span className={`placeholder-text ${animationClass}`}>
         {placeholder}
-      </span>
+      </span>: ""}
     </Box>
   );
 };
@@ -142,12 +147,10 @@ export const Header: React.FC = () => {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-
         sx={{
-          position:"absolute",
-        bottom:"580px",
-        right:"1050px",
-        
+          position: "absolute",
+          bottom: "580px",
+          right: "1050px",
         }}
       >
         <DialogTitle sx={{ m: 0, p: 2, fontSize: "13px" }}>
